@@ -1,0 +1,147 @@
+<?php
+
+
+//~ Template for add-edit.php
+// variables:
+//  $errors - validation errors
+//  $todo - submitted TODO
+//  $edit - true for EDIT, false for ADD
+
+function error_field($source, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $source) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+
+/* @var $todo Todo */
+?>
+
+<p><h1>
+    <?php if ($edit): ?>
+     <h1>Edit project</h1></p>
+    <?php else: ?>
+    <h1>Add new project</h1></p>
+    <?php endif; ?>
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<form action="#" method="post" id="bordered">
+    <fieldset id="project">
+        <table class="add">
+        <div class="field"><tr>
+                <th>
+            <label>Title:</label></th>
+            <td><input type="text" name="todo[title]" value="<?php echo Utils::escape($todo->getTitle()); ?>"
+                   class="text<?php echo error_field('title', $errors); ?>"/></td>
+
+		<th><label2>Priority:</label2>
+		<select name = "todo[priority]">
+		<?php foreach (Todo::allPriorities() as $priority): ?>
+                <option value="<?php echo $priority; ?>"
+                        <?php if ($priority == $todo->getPriority()): ?>
+                            selected="selected"
+                        <?php endif; ?>
+                        ><?php echo $priority; ?></option>
+            <?php endforeach; ?>
+                </th>
+            </select>
+        </tr>	
+        </div><tr>
+        <div class="field"><tr>
+            <th><label>Due On:</label></th>
+            <td><input type="text" name="todo[due_on_date]" class="datepicker" value="<?php echo Utils::escape($todo->getDueOn()->format('Y-m-d')); ?>"/></td>
+            <td>
+            
+            <select name="todo[due_on_minute]">
+            <?php for ($i = 0; $i < 60; $i = $i + 15): ?>
+                <option value="<?php echo $i; ?>"
+                        <?php if ($todo->getDueOn() && $i == $todo->getDueOn()->format('i')): ?>
+                            selected="selected"
+                        <?php endif; ?>
+                        ><?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
+            <?php endfor; ?>
+            </select>
+                
+                <select name="todo[due_on_hour]">
+            <?php for ($i = 0; $i < 24; ++$i): ?>
+                <option value="<?php echo $i; ?>"
+                        <?php if ($todo->getDueOn() && $i == $todo->getDueOn()->format('H')): ?>
+                            selected="selected"
+                        <?php endif; ?>
+                        ><?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
+            <?php endfor; ?>
+            </select>
+             </td>
+        </tr>
+        </div>
+	 <tr><th><label>Assign to:</label></th><td><select id="assignTo" name='assignTo[]'  multiple class="chzn-select" data-placeholder="Select employee...">			
+
+	<?php
+		$dao = new TodoDao();
+                $db = $dao->getDb();
+		$sql="SELECT * FROM employee";
+		$result= $db->query($sql) or die("error showing details");
+		if($edit) {
+			$tempId = $todo->getId();
+			$sql2="SELECT eid FROM worksOn WHERE pid = '$tempId'";
+			$result2 = $db->query($sql2) or die("error showing details");
+		} 
+		while($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+			<option value="<?php echo $row['id']; ?>"
+	<?php
+		if($edit) {
+			while($row2 = $result2->fetch(PDO::FETCH_ASSOC)) {
+
+				if($row2['eid'] == $row['id']) { 
+	?>
+					selected="selected"
+	<?php
+					break;
+				}
+			}
+			$result2 = $db->query($sql2) or die("error showing details");
+		} 
+	?>>
+				<?php echo $row['name'] ?>
+			</option>
+	<?php	}
+		$dao->__destruct();
+	?>
+	</select></td>
+
+	</tr></table>
+	   <br></br>
+        <div class="field">
+            <label2>Description:</label2>
+            <textarea name="todo[description]" cols="1" rows="1"
+                      class="<?php echo error_field('description', $errors); ?>"><?php echo Utils::escape($todo->getDescription()); ?></textarea>
+        </div>
+        <div class="field">
+            <label2>Comment:</label2>
+            <textarea name="todo[comment]" cols="1" rows="1"
+                      class="<?php echo error_field('comment', $errors); ?>"><?php echo Utils::escape($todo->getComment()); ?></textarea>
+        </div>
+	   <br></br>
+        <div class="wrapper">
+            <input type="reset" name="cancel" id="cancel" value="CANCEL" class="submit"><script>
+		$('#cancel').click(function(evt) {
+  			evt.preventDefault();
+  			form = $(this).parents("form").first();
+  			form[0].reset();
+  			form.find(".chzn-select").trigger("liszt:updated");			
+		});
+	</script></input>
+            <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />
+        </div>
+    </fieldset>
+</form>

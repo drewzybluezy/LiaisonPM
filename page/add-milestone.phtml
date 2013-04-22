@@ -1,0 +1,93 @@
+<?php if(isset($_GET['tid'])) {
+	$edit=TRUE;
+
+	$tid = $_GET['tid'];
+
+	$dao = new TodoDao();
+	$db = $dao->getDb();
+
+	$sql = "SELECT * FROM task WHERE tid = '$tid'";
+	$task = $db->query($sql) or die("Couldn't find task.");
+	$row = $task->fetch(PDO::FETCH_ASSOC);
+
+	$title = $row['title'];
+	$start = $row['start'];
+	$end = $row['end'];
+
+	$sql = "SELECT * FROM onTask WHERE tid = '$tid'";
+	$employees = $db->query($sql) or die("Couldn't retrieve employees.");
+}
+
+function error_field($source, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $source) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+?>
+
+<p>
+	<h1><?php if ($edit): ?>Edit milestone<?php else: ?>Add milestone<?php endif; ?></h1>
+</p>
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<form action="#" method="post" id="bordered">
+	<fieldset>
+		<table class="add">
+			<tr><th><label>Milestone:</th></label>
+			<td><input type="text" name="milestone" value="<?php if ($edit) { echo $title; } ?>" /></td></tr>
+		
+			<tr><th><label>Start Date:</th></label>
+			<td><input type="text" class="datepicker" name="start" value="<?php if ($edit) { echo date('Y-m-d', strtotime($start)); } else { echo date('Y-m-d'); } ?>" /></td></tr>
+
+			<tr><th><label>End Date:</th></label>
+			<td><input type="text" class="datepicker" name="end" value="<?php if ($edit) { echo date('Y-m-d', strtotime($end)); } else { echo date('Y-m-d'); } ?>" /></td></tr>
+
+			<tr><th><label>Assign to:</th></label>
+			<td><select multiple class="chzn-select" name="assignTo[]" id="assign2" data-placeholder="Choose employees...">
+			<?php if (isset($_SESSION['ms'])) {
+				$id = $_SESSION['ms'];
+				$dao = new TodoDao();
+				$db = $dao->getDb();
+				$sql = "SELECT * FROM worksOn WHERE pid = '$id'";
+
+				$result = $db->query($sql) or die('Something went wrong.');
+				while($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+				<option value="<?php echo $row['eid']; ?>"
+				<?php
+					$rowid = $row['eid'];
+					$sql2 = "SELECT * FROM employee WHERE id = '$rowid'";
+					$result2 = $db->query($sql2) or die('Couldnt get name');
+					$row2 = $result2->fetch(PDO::FETCH_ASSOC);
+				if($edit) {
+					while($rowE = $employees->fetch(PDO::FETCH_ASSOC)) {
+						if($row2['id'] == $row['eid']) {
+			?>
+							selected="selected"
+			<?php
+							break;
+						}
+					}
+			} ?>>
+				<?php 	echo $row2['name']; 
+				?></option>
+			<?php }} ?>
+			</select></td></tr>
+		</table>
+
+		<div class="wrapper">
+            		<input type="submit" name="cancel" value="CANCEL" class="submit" />
+            		<input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />
+        	</div>
+	</fieldset>
+</form>

@@ -1,0 +1,40 @@
+<?php
+function error_field($source, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $source) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+?>
+<p>
+    <h1>Create Alert</h1>
+</p>
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error):
+        /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+
+<form action="#" method="post" id="bordered">
+    <fieldset>
+        <table class="add">
+        <div class="field">
+	   <tr><th><label>Title:</label></th><td><input type="text" name="title" /></td></tr>
+	   <tr><th><label>Message:</label></th><td><input type="text" name="body" /></td></tr>
+            <tr><th><label>Expiration Date:</label></th><td><input type="text" name="ex-date" value="<?php echo date('Y-m-d'); ?>"class="datepicker" /></td></tr>
+    </div></table>
+	   <br></br>
+        <div class="wrapper">
+            <input type="reset" name="cancel" value="CANCEL" class="submit" />
+            <input type="submit" name="save" value="ADD" class="submit" />
+        </div>
+    </fieldset>
+</form>
+

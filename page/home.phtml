@@ -1,0 +1,46 @@
+<h3>Liaison Technologies Project Manager</h3>
+<p class="p">
+<?php if(isset($_SESSION['name'])) {
+        $array = explode('-', $_SESSION['name']);
+        echo "Welcome $array[0]";
+      }
+      else {
+        echo 'To access administration-level functions, please sign in.';
+      }
+?>
+
+ <?php 
+   $dao = new TodoDao();
+   $db = $dao->getDb();
+   $sql="SELECT * FROM alert";
+
+   $result = $db->query($sql) or die ('Error: ' . mysql_error());
+   while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+   
+   <li name="boxed">
+     <table class="add">
+      <tr>
+	   <td><h1><?php echo $row['title'] ?></h1></td>
+
+	<?php
+           	$array = explode('-', $_SESSION['name']);
+		if(strcmp($array[1], 'Super Administrator') == 0) {
+       ?>
+ 	<td>
+		<form action="#" method="post" id="remove">
+			<button type="submit" name="remove-alert" title="Remove Alert" value="<?php echo $row['title'] ?>">
+				<img src="img/action/delete.png" alt="">
+			</button>
+		</form>
+       </td>
+	<?php } ?>
+
+      </tr>
+      <tr><td><?php echo $row['body'] ?></td></tr>
+     </table>
+   </li>
+
+ <?php } 
+   $dao->__destruct(); ?>
+
+</p>

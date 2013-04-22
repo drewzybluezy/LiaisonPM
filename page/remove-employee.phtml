@@ -1,0 +1,42 @@
+<head>
+    <link href="css/chosen.css" rel="stylesheet" type="text/css" />
+    <script src="js/chosen.jquery.js"></script>
+    <script src="js/chosen.jquery.min.js"></script>
+</head>
+
+<p>
+    <h1>Remove employee</h1>
+</p>
+
+<?php
+   $dao = new TodoDao();
+   $db = $dao->getDb(); ?>
+
+
+<form action="#" method="post" id="bordered">
+    <fieldset>
+        <table class="add">
+        <div class="field"><tr>
+           <th><label id='nameLabel'>Employee name:</th></label>
+	   <td><select name='name' id='name'>
+              <?php
+                $sql = "SELECT name FROM employee";
+                $result= $db->query($sql) or die('Error: ' . mysql_error());
+		  while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+		  <option>
+			<?php echo $row['name'] ?>
+		  </option>
+		  <?php
+			}
+                ?>
+              </select></td>
+
+        </tr>
+    </div></table>
+	   <br></br>
+        <div class="wrapper">
+            <input type="reset" name="cancel" value="CANCEL" class="submit" />
+            <input type="submit" name="save" value="REMOVE" class="submit" />
+        </div>
+    </fieldset>
+</form>

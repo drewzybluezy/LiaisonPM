@@ -1,0 +1,486 @@
+/*reset*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, label2, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;background: transparent;vertical-align:middle;}
+:focus {outline: 0;}
+
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('fonts/BebasNeue-webfont.eot');
+    src: url('fonts/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/BebasNeue-webfont.woff') format('woff'),
+         url('fonts/BebasNeue-webfont.ttf') format('truetype'),
+         url('fonts/BebasNeue-webfont.svg#BebasNeueRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+label {
+   vertical-align: middle; 
+   float: right;
+   margin: 0px 8% 0px 0px;
+}
+
+label2 {
+   vertical-align: middle;
+   margin:0px 4% 0px 4%;
+}
+
+body {
+    background:#FFFFFF url(../img/bg.gif) repeat;
+    font:12px "Century Gothic", arial, Helvetica, sans-serif;
+    color:#444;line-height: 1;
+}
+
+/* Link */
+a {
+    color:#0E488A;
+    text-decoration:none;
+    height: 24px;
+}
+
+a:link, a:visited {
+    color: #0E488A;
+    text-decoration: none;
+}
+
+employee {
+    color: #2A5EBF;
+}
+
+a:active, a:hover { color: #D9A600; text-decoration: none; }
+
+.main_container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: left;
+}
+.clr {
+    clear: both;
+}
+
+fieldset[id="project"]{
+   padding: 0;
+   display: inherit;
+   -webkit-margin-start: 0;
+   -webkit-margin-end: 0;
+  -webkit-padding-before: 0;
+  -webkit-padding-start: 0;
+  -webkit-padding-end: 0;
+  -webkit-padding-after: 0;
+}
+
+select[name="assign[]"], select[id="assign"], select[id="assign2"] {
+   width: 100%;
+}
+
+input[id="mydate"], input[class="submit"], textarea, select {
+    float: right;
+    font-size: 16px;
+}
+
+button[name="remove-alert"] {
+    float: right;
+}
+
+label {
+    margin: 7px;
+}
+
+input, select {
+    font-weight: normal;
+}
+
+
+h1 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+h2 {
+    margin-bottom: 20px;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+h3 {
+    font-size: 24px;
+    color: #4c7cbd;
+    margin-bottom: 12px;
+}
+
+h4 {
+    font-size: 30px;
+    color: #4c7cbd;
+}
+
+h3 a {
+    color: #4c7cbd;
+    text-decoration: none;
+}
+h3 a:hover {
+    text-decoration: underline;
+}
+
+object {
+    vertical-align: top;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    border: 0;
+    text-align: left;
+    width: 24px;
+    height: 24px;
+}
+
+a {
+    color: #414141;
+    outline: none;
+}
+a:hover {
+    text-decoration: none;
+}
+
+/** lists **/
+ul {
+    list-style-type: none;
+    position: relative;
+}
+
+li[name="boxed"] {
+    width: 95%;
+    margin-bottom: 10px;
+    padding: 3%;
+    background: rgb(247, 247, 247);
+    border: 1px solid rgba(147, 184, 189,0.8);
+    -webkit-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    -moz-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    -webkit-box-shadow: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align:left;
+}
+
+table.add {
+    width: 100%;
+}
+.list li {
+    width: 100%;
+    overflow: hidden;
+    vertical-align: middle;
+    padding: 3px 0 20px 0;
+    margin-left: 0;
+}
+.list li img, input[id="remove-alert"] {
+    float: right;
+    width: 24px;
+    height: 24px;
+}
+
+select[name="assignTo[]"] {
+    width: 100%;
+}
+
+.list li img[src="img/exclamation.png"] {
+    float: none;
+    width: 14px;
+    height: 14px;
+}
+
+.detail tbody tr td img[src= "img/exclamation.png"] {
+    width: 14px;
+    height: 14px;
+}
+
+.list p.description {
+    margin-bottom: 5px;
+}
+.list span.label, label2 {
+    font-weight: bold;
+}
+
+h2 {
+    font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+    font-size: 40px;
+    line-height: 40px;
+    position: relative;
+    font-weight: 400;
+    color: rgba(26,89,120,0.9);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-align:center;
+    padding: 10px 30px 10px 30px;
+    margin: 20px 20px 20px 20px;
+    position: relative;
+}
+	
+h2 span{
+    color: #FFCC00;
+    text-shadow: 1px 1px 1px rgba(204,163,0,0.8);
+}
+h3 {
+   font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+   font-weight:400;
+   color: rgba(26,89,120,0.9);
+   font-size:25px;
+   margin: 10px;
+}
+
+p {
+   line-height:24px;
+   font-size:13px;
+   margin: 15px;
+}
+
+.container {
+    right: 0px;
+    min-height: 200px;	
+    margin: 5px auto;
+    width:650px;
+    position: relative;
+}
+
+/*add project form*/
+form[id="bordered"] {
+    width: 700px;
+    position: relative;	
+    padding: 3% 5%;
+    background: rgb(247, 247, 247);
+    border: 1px solid rgba(147, 184, 189,0.8);
+    -webkit-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    -moz-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    -webkit-box-shadow: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align:left;
+}
+
+/*CSS for textarea (description and comment)*/
+textarea {
+    width:85%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    height: 50px;
+    padding: 5px;
+    resize: none;
+    border: 1px solid #cccccc;
+    color: #333333;
+    font: 12px Verdana, Helvetica, Arial, sans-serif;
+    -moz-border-radius: 3px;
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing : content-box;
+    box-sizing : content-box;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+    -moz-box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+    box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
+/*CSS for submit button*/		
+form input.submit, input[type="reset"] {
+    width: 25%;
+    cursor: pointer;	
+    background: rgb(61, 157, 179);
+    padding: 5px 5px;
+    font-family: 'BebasNeueRegular','Arial Narrow',Arial,sans-serif;
+    color: #fff;
+    font-size: 16px;	
+    border: 1px solid rgb(28, 108, 122);
+    margin-top: 25px;
+    margin-left:15px;
+    margin-bottom: 0px;	
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;	
+    -webkit-box-shadow: 0px 1px 6px 4px rgba(0, 0, 0, 0.07) inset,
+	        0px 0px 0px 3px rgb(254, 254, 254),
+	        0px 5px 3px 3px rgb(210, 210, 210);
+    -moz-box-shadow:0px 1px 6px 4px rgba(0, 0, 0, 0.07) inset,
+	        0px 0px 0px 3px rgb(254, 254, 254),
+	        0px 5px 3px 3px rgb(210, 210, 210);
+    box-shadow:0px 1px 6px 4px rgba(0, 0, 0, 0.07) inset,
+	        0px 0px 0px 3px rgb(254, 254, 254),
+	        0px 5px 3px 3px rgb(210, 210, 210);
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    text-align:center;
+}
+
+img[name="plus"], img[name="x"], img[id="remove-alert"] {
+   cursor: pointer;
+}
+			
+form input.submit:hover, input[type="reset"]:hover {
+    background: rgb(74, 179, 198);
+}
+
+table.employee {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.errors {
+    margin-bottom: 20px;
+}
+.errors li {
+    color: red;
+}
+.error-field {
+    background-color: pink;
+}
+
+/**** advanced input styling ****/
+/* placeholder */
+-webkit-input-placeholder  { 
+    color: rgb(190, 188, 188); 
+    font-style: italic;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder{ 
+    color: rgb(190, 188, 188);
+    font-style: italic;
+}
+
+input[type="text"] {
+    margin: 0 auto;
+    outline: none;
+    height: 25px;
+    width: 100%;
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing : content-box;
+    box-sizing : content-box;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+    box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.6) inset;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    text-align:center;
+}
+
+select[name='name'] {
+    margin: 0 auto;
+    outline: none;
+    height: 25px;
+    width: 100%;
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing : content-box;
+    box-sizing : content-box;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    text-align:center;
+}
+
+select[name='perm'] {
+    margin: 0 auto;
+    outline: none;
+    height: 25px;
+    width: 100%;
+    -webkit-appearance: textfield;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing : content-box;
+    box-sizing : content-box;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    text-align:center;
+}
+
+/** content **/
+#content {
+    padding: 20px 40px 0 40px;
+}
+#content .indent {
+    padding: 0px 0 0 9px;
+}
+#content p {
+    line-height: 1.17em;
+}
+
+/** boxes **/
+.box {
+    width: 90%;
+    border: 1px solid #D6D6D6;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    -moz-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    background: rgb(247, 247, 247);
+}
+.box .inner {
+    padding: 6%;
+}
+
+.img-box1 {
+    width: 100%;
+    overflow: hidden;
+    padding-top: 3px;
+}
+.img-box1 img {
+    float: left;
+    margin: 5px 10px;
+}
+
+table.detail {
+    margin-bottom: 20px;
+}
+table.detail th {
+    text-align: right;
+}
+table.detail td {
+    padding: 2px 14px;
+}
+
+th {
+    width: 20%;
+}
+
+.icon {
+    margin: 0px 10px 0px 5px;
+    width: 24px;
+    height: 24px;
+}
+
+.line-hor {
+    border-bottom: 1px solid #000;
+    margin: 20px 0;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+}
+
+.title {
+    margin-bottom: 18px;
+}
+
+
+span.too-late {
+    color: red;
+    font-weight: bold;
+}

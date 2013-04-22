@@ -1,0 +1,231 @@
+<?php
+  if(!session_start()) {
+	session_start();
+  }
+  if(isset($_POST['filters'])) {
+	echo $_POST['filters'];
+	$_SESSION['filtering'] = $_POST['filters'];
+    exit;
+  }
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Liaison Technologies Project Manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="description" content="Liaison project managment software" />
+    <meta name="keywords" content="Liaison" />
+    <meta name="author" content="Joe Ahart, Drew Murphy, Donald Miller" />
+
+    <link href="css/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/chosen.css" rel="stylesheet" type="text/css" />
+    <link href="css/layout.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="js/chosen.jquery.js"></script>
+    <script src="js/chosen.jquery.min.js"></script>
+
+</head>
+<body id="page">
+    <div class="tail-top-right"></div>
+    <div id="main">
+        <!-- header -->
+        <a href="<?php echo Utils::createLink('home'); ?>" >
+	  <div id="header"></div>
+        </a>
+        <!-- content -->
+        <div id="content">
+            <div class="wrapper">
+                <div class="col-1">
+                    <div class="box">
+                        <div class="inner">
+                            <ul class="list">
+                              <span><a href="<?php echo Utils::createLink('home'); ?>">
+
+						            <img src="img/action/home.png" alt="" title="Current projects" class="icon" />Home</a></span>
+                                </br></br>
+
+                                <span><a href="<?php echo Utils::createLink('list', array('status' => Todo::STATUS_CURRENT)); ?>">
+                                  <img src="img/status/CURRENT.png" alt="" title="Current projects" class="icon" />Current Projects</a></span>
+                                </br></br>
+
+                                <span><a href="<?php echo Utils::createLink('list', array('status' => Todo::STATUS_COMPLETED)); ?>">
+                                  <img src="img/status/COMPLETED.png" alt="" title="Completed projects" class="icon" />Completed Projects</a></span>
+                                </br></br>
+
+                                <span><a href="<?php echo Utils::createLink('list', array('status' => Todo::STATUS_CANCELED)); ?>">
+                                  <img src="img/status/CANCELED.png" alt="" title="Canceled projects" class="icon" />Canceled Projects</a></span>
+                              <?php 
+                                    if(isset($_SESSION['name'])) {
+                              ?>
+				                        </br></br>
+
+                                <span><a href="<?php echo Utils::createLink('add-edit'); ?>">
+                                  <img src="img/action/add.png" alt="" title="Add project" class="icon" />Create Project</a></span>
+                                </br></br>
+					
+                              <?php
+                                    $array = explode('-', $_SESSION['name']);
+                                    if(strcmp($array[1], 'Super Administrator') == 0) {
+                              ?>
+                                <span><a href="<?php echo Utils::createLink('alert'); ?>">
+                                        <img src="img/action/add.png" alt="" title="Add alert" class="icon" />Create Alert</a></span>
+				                      <?php
+                                   }
+                              ?>
+                            </ul>
+                          </div>
+                        </div>
+				                </br>
+				
+				                <div class="box">
+				                  <div class="inner">
+                            <span><a href="../sign-in/sign-out.php">
+				   <img src="img/action/logout.png" alt="" title="Sign Out" class="icon" />Sign Out</a></span>
+
+                          <?php
+                            }
+                            else {
+                          ?>
+			
+				</ul></div></div>
+				   
+				</br>
+				
+				<div class="box">
+				  <div class="inner">
+                                 <span><a href="../sign-in/">
+					 <img src="img/action/login.png" alt="" title="Sign In" class="icon" />Sign In</a></span>
+                              <?php
+                              }
+                              ?>
+                            
+                            </div>
+                          </div>
+                      </br>   
+               
+        <div class="box">
+          <div class="inner">
+            <ul class="list">                     
+
+				<table class="employee">
+				<tr><td><select id ="assign" multiple class="chzn-select" data-placeholder="Filter by employee...">		
+				 <?php
+
+				$dao = new TodoDao();
+				$db = $dao->getDb();
+
+				$sql="SELECT * FROM employee";
+				$result= $db->query($sql) or die('Error: ' . mysql_error());
+				while($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+		
+                            
+				<option value="<?php echo $row['id'] ?>"
+				<?php  if(isset($_SESSION['filtering'])) {
+						$array = explode(',', $_SESSION['filtering']);
+						for($i = 0; $i < count($array); $i++) { ?>
+
+				<?php			if($array[$i] == $row['id']) {?>
+								selected="selected"
+				<?php				break;
+							}
+						}
+  					}?>>
+					<?php echo $row['name'] ?>
+				</option>
+
+				<?php }
+					$dao->__destruct();
+				?>
+				<script>
+				   $("#assign").chosen().change(function() { 
+						var a = [];
+						$('#assign :selected').each(function(i, selected){ 
+
+  							a[i] = $(selected).val(); 
+
+						});
+						array = a.join(',');
+      						$.ajax({
+         						type: 'POST',
+         						data: 'filters='+array,
+							cache: false,
+							success: function() {
+								window.location.reload();
+							}
+      						});     
+				   });
+				</script>
+
+				</select>
+				</td></tr>
+				</table>
+
+		   <?php
+				          
+                   if(isset($_SESSION['name'])) {
+                        $array = explode('-', $_SESSION['name']);
+                        if(strcmp($array[1], 'Super Administrator') == 0) {
+                   ?>
+                     	<span><a href="<?php echo Utils::createLink('employee'); ?>"
+                                             ><img src="img/action/add.png" alt="" title="Add User" class="icon" />Add User</a></span>
+			</br></br>
+
+			<span><a href="<?php echo Utils::createLink('remove-employee'); ?>"
+                                             ><img src="img/action/add.png" alt="" title="Remove User" class="icon" />Remove User</a></span>
+                   <?php
+                        }
+                   }
+                   ?>
+                            </ul>
+                        </div>
+                    </div>
+
+		<?php if(isset($_SESSION['name'])) { ?>
+		</br>
+   		 <div class="box">
+     		 <div class="inner">
+                            
+                            <ul class="list">
+				<span><a href="<?php echo Utils::createLink('report'); ?>">
+					<img src="img/action/print.png" alt="" title="Reports" class="icon" />Reports</a></span>
+				</u1>
+			  </div>
+		     </div>
+		<?php } ?>
+
+  </br>
+
+   
+    <div class="box">
+      <div class="inner">
+                            
+          <span><a href="../slide-show/">
+		<img src="img/action/Slideshow.png" alt="" title="Slide Show" class="icon" />Slide Show</a></span>
+        </div>
+         </div>
+
+			
+                </div>
+                <div class="col-2">
+                    <div class="indent">
+                        <?php if ($flashes): ?>
+                            <ul id="flashes">
+                            <?php foreach ($flashes as $flash): ?>
+                                <li><?php echo $flash; ?></li>
+                            <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+
+                        <?php require $template; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</body>
+</html>

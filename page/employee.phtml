@@ -1,0 +1,85 @@
+<?php
+function error_field($source, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $source) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+?>
+<p>
+    <h1>Add new employee</h1>
+</p>
+
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error):
+        /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+
+<form action="#" method="post" id="bordered">
+    <fieldset>
+        <table class="add">
+        <div class="field"><tr>
+           <th><label>Employee name:</th></label>
+	   <td><input type="text" name="name" /></td></tr>
+
+           <tr><th><label>Administrator?</label></th><td><input type="checkbox" id="isAdmin" name="isAdmin" value="Yes" /><script> 
+		$('#isAdmin').change(function() {
+			if(document.getElementById('uName').type=='hidden') {
+				document.getElementById('uName').type="text";
+				document.getElementById('uName').value='';
+				document.getElementById('pWord').type="text";
+				document.getElementById('pWord').value='';
+				document.getElementById('permLabel').style.display= "inline";
+				document.getElementById('perm').style.display="inline";
+				document.getElementById('uLabel').style.display= "inline";
+				document.getElementById('pLabel').style.display= "inline";
+			}
+			else {
+				document.getElementById('uName').type="hidden";
+				document.getElementById('pWord').type="hidden";
+				document.getElementById('perm').style.display="none";
+				document.getElementById('permLabel').style.display = "none";
+				document.getElementById('uLabel').style.display = "none";
+				document.getElementById('pLabel').style.display = "none";
+			}
+		});
+</script></input></t> </tr>
+		<tr><th><label id="permLabel" style="display: none;">Permission Level:</th></label>
+	   <td><select name="perm" id="perm" style="display: none;">
+			<option value="Super Administrator">Super Administrator</option>
+			<option value="Administrator">Administrator</option>
+	   </select></td>
+		
+        </tr>
+	<th><label id="uLabel" style="display: none;">User Name:</th></label>
+	   <td><input type="hidden" name="uName" id="uName" /></td></tr>
+
+	<th><label id="pLabel" style="display: none;">Password:</th></label>
+	   <td><input type="hidden" name="pWord" id ="pWord" /></td></tr>
+	</tr>
+    </div>
+</table>
+	   <br></br>
+        <div class="wrapper">
+            <input type="reset" id="cancel" name="cancel" value="CANCEL" class="submit"><script> 
+		$('#cancel').click(function() {
+			document.getElementById('uName').type="hidden";
+			document.getElementById('pWord').type="hidden";
+			document.getElementById('perm').style.display="none";
+			document.getElementById('permLabel').style.display = "none";
+			document.getElementById('uLabel').style.display = "none";
+			document.getElementById('pLabel').style.display = "none";		
+		});
+	     </script></input>
+            <input type="submit" name="save" value="ADD" class="submit" />
+        </div>
+    </fieldset>
+</form>

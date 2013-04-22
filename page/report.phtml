@@ -1,0 +1,121 @@
+<p>
+    <h1>Reports</h1>
+</p>
+
+
+<form action="#" method="post" id="bordered">
+    <fieldset>
+        <table class="add">
+        <div class="field">
+          	<tr><th><label for="byProject">By Project?</label></th>
+		<td><input type="radio" id="byProject" name="reportBy" value="byProject" checked /><script> 
+		$('#byProject').change(function() {
+				document.getElementById('project').style.display="inline";
+				document.getElementById('projectLabel').style.display = "inline";
+				document.getElementById('allProjects').style.display = "inline";
+				document.getElementById('allPLabel').style.display = "inline";
+				document.getElementById('employeeLabel').style.display="none";
+				document.getElementById('employee').style.display = "none";
+				document.getElementById('allEmployees').style.display = "none";
+				document.getElementById('allELabel').style.display = "none";
+
+		});
+		</script></input>
+
+		<th><label id="allPLabel" for="allProjects" style="float:right;">All Projects?</label></th>
+		<td><input type="checkbox" name="allProjects" id="allProjects" style="float:left;" value="Yes"><script>
+			$('#allProjects').click(function() {
+				if($('#allProjects').attr('checked')) {
+					$("#project").prop('disabled', 'disabled');
+				} else {
+					$("#project").removeAttr("disabled");
+				}
+			});
+		</script></input></td>
+
+		<th><label id="projectLabel">Select Project:</th></label>
+	  	<td><select name="project" id="project">
+	     	<?php
+
+		$dao = new TodoDao();
+		$db = $dao->getDb();
+
+		$sql="SELECT id, title FROM projects WHERE deleted = 0";
+		$result= $db->query($sql) or die('Error: ' . mysql_error());
+		while($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+				<option value="<?php echo $row['id'] ?>">
+				<?php echo $row['title'] ?>
+				</option>
+
+		<?php }
+			$dao->__destruct();
+		?>
+	   	</select></td>
+		
+          	 <tr><th><label for="byEmployee">By Employee?</label></th>
+		 <td><input type="radio" id="byEmployee" name="reportBy" value="byEmployee" /><script> 
+			$('#byEmployee').change(function() {
+				document.getElementById('employeeLabel').style.display="inline";
+				document.getElementById('employee').style.display = "inline";
+				document.getElementById('allEmployees').style.display = "inline";
+				document.getElementById('allELabel').style.display = "inline";
+				document.getElementById('project').style.display="none";
+				document.getElementById('projectLabel').style.display = "none";
+				document.getElementById('allProjects').style.display = "none";
+				document.getElementById('allPLabel').style.display = "none";
+			});
+		</script></input></td>
+		<th><label id="allELabel" for="allEmployees" style="display: none; float: right;">All Employees?</label></th>
+		<th><input type="checkbox" name="allEmployees" id="allEmployees" style="display: none; float: left;" value="Yes"><script>
+			$('#allEmployees').click(function() {
+				if($('#allEmployees').attr('checked')) {
+					$("#employee").prop('disabled', 'disabled');
+				} else {
+					$("#employee").removeAttr("disabled");
+				}
+			});
+		</script></input></th>
+		<th><label id="employeeLabel" style="display: none;">Select Employee:</th></label>
+	   	<td><select name="employee" id="employee" style="display: none;">
+				 <?php
+
+				$dao = new TodoDao();
+				$db = $dao->getDb();
+
+				$sql="SELECT * FROM employee";
+				$result= $db->query($sql) or die('Error: ' . mysql_error());
+				while($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+					<option value="<?php echo $row['id'] ?>">
+					<?php echo $row['name'] ?>
+					</option>
+
+				<?php }
+					$dao->__destruct();
+				?>
+	   	</select></td>
+       	</tr>
+    	</div>
+	</table>
+	<br></br>
+       <div class="wrapper">
+         <input type="reset" id="cancel" name="cancel" value="CANCEL" class="submit">
+	    <script>
+		$('#cancel').click(function() {
+				document.getElementById('project').style.display="inline";
+				document.getElementById('projectLabel').style.display = "inline";
+				document.getElementById('allProjects').style.display = "inline";
+				document.getElementById('allPLabel').style.display = "inline";
+				document.getElementById('employeeLabel').style.display="none";
+				document.getElementById('employee').style.display = "none";
+				document.getElementById('allEmployees').style.display = "none";
+				document.getElementById('allELabel').style.display = "none";
+
+				$("#employee").removeAttr("disabled");
+				$("#project").removeAttr("disabled");	
+		});
+	    </script>
+	  </input>
+         <input type="submit" name="export" value="EXPORT" class="submit" />
+       </div>
+   </fieldset>
+</form>
